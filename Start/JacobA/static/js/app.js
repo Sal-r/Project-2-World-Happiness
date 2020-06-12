@@ -32,22 +32,28 @@ function makeResponsive() {
                       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
   d3.csv(filepath).then((happinessData) => {
-    
-    var rank = "Happiness Rank";
 
     happinessData.forEach(function(data) {
       data.country = +data.Country;
-      data.rank = +data.rank;
-      data.freedom = +data.Freedom;
+      data.family = +data.Family;
+      data.rank = +data.HappinessRank;
+      data.score = +data.Happiness_Score;
+      data.anything = +data.Freedom;
+      data.generosity = +data.Generosity;
+      data.error = +data.Standard_Error;
+      data.economy = +data.Economy;
+      data.health = +data.Health;
     });
 
+    console.log(happinessData);
+    //console.log(happinessData.HappinessRank);
 
     var xLinearScale = d3.scaleLinear()
-                         .domain([(d3.min(happinessData, d => d.freedom)), d3.max(happinessData, d => d.freedom)])
+                         .domain([(d3.min(happinessData, d => d.anything)), d3.max(happinessData, d => d.anything)])
                          .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-                         .domain([(d3.min(happinessData, d => d.rank)), d3.max(happinessData, d => d.rank)])
+                         .domain([(d3.min(happinessData, d => d.generosity)), d3.max(happinessData, d => d.generosity)])
                          .range([height, 0]);
 
     var xAxis = d3.axisBottom(xLinearScale);
@@ -64,8 +70,8 @@ function makeResponsive() {
         .data(happinessData)
         .enter()
         .append("circle")
-        .attr("cx", d => xLinearScale(d.freedom))
-        .attr("cy", d => yLinearScale(d.rank))
+        .attr("cx", d => xLinearScale(d.anything))
+        .attr("cy", d => yLinearScale(d.generosity))
         .attr("r", "8")
         .attr("fill", "lightblue")
         .attr("stroke-width", ".5")
@@ -78,5 +84,4 @@ function makeResponsive() {
 
 makeResponsive();
 
-// When the browser window is resized, makeResponsive() is called.
 d3.select(window).on("resize", makeResponsive);
