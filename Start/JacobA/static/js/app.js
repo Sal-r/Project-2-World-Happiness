@@ -40,7 +40,7 @@ function makeResponsive() {
 
     //Parse through the data
     happinessData.forEach(function(data) {
-      data.country = +data.Country;
+      data.country = data.Country;
       data.family = +data.Family;
       data.rank = +data.HappinessRank;
       data.score = +data.Happiness_Score;
@@ -61,7 +61,7 @@ function makeResponsive() {
 
     //Create y axis scale and size
     var yLinearScale = d3.scaleLinear()
-                         .domain([0, d3.max(happinessData, d => d.score)])
+                         .domain([0, d3.max(happinessData, d => d.rank)])
                          .range([height, 0]);
 
     //Determine affixation to bottom and left for axes
@@ -82,11 +82,40 @@ function makeResponsive() {
         .enter()
         .append("circle")
         .attr("cx", d => xLinearScale(d.freedom))
-        .attr("cy", d => yLinearScale(d.score))
+        .attr("cy", d => yLinearScale(d.rank))
         .attr("r", "8")
         .attr("fill", "lightblue")
         .attr("stroke-width", ".5")
         .attr("stroke", "blue");
+
+    var labelsGroup = chartGroup.append("g")
+        .attr("transform", `translate(${width / 2}, ${height + 20})`);
+
+    var freedomLabel = labelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("value", "freedom")
+        .text("Freedom Rating");
+
+    chartGroup.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - margin.left)
+        .attr("x", 0 - (height / 2))
+        .attr("dy", "1em")
+        .text("Happiness Ranking");
+
+    var toolTip = d3.tip()
+        .attr("class", "tooltip")
+        .html(function(d) {
+          return (`${d.country}`);
+        });
+
+    circlesGroup.call(toolTip);
+
+    circlesGroup
+        .on("mouseover", function(data) {toolTip.show(data);})
+        .on("mouseout", function(data, index) {toolTip.hide(data);});
+
   
   }).catch(function(error) {
   console.log(error);
