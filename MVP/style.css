@@ -1,0 +1,27 @@
+.tooltip {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    padding: 2px;
+    padding-top: 8px;
+    font: 12px sans-serif;
+    color: white;
+    text-align: center;
+    background: #4891ff;
+    border: 0;
+    border-radius: 10px;
+  }
+
+.active {
+    font-weight: bold;
+    fill: #000;
+    transition: fill 0.3s ease-out;
+    text-anchor: middle;
+  }
+  
+.inactive {
+    font-weight: lighter;
+    fill: #000;
+    transition: fill 0.3s ease-out;
+    text-anchor: middle;
+  }
