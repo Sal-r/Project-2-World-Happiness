@@ -1,6 +1,4 @@
-var filepath = "2015_happiness.csv";
-
-function makeResponsive() {
+function createChart(year, xaxis, yaxis) {
   //Ties an svg element to the body
   var svgArea = d3.select("body").select("svg");
 
@@ -35,33 +33,32 @@ function makeResponsive() {
   var chartGroup = svg.append("g")
                       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+  var filepath = year + "_happiness.csv";
+
   //Read in the csv file
   d3.csv(filepath).then((happinessData) => {
 
     //Parse through the data
     happinessData.forEach(function(data) {
-      data.country = data.Country;
-      data.family = +data.Family;
-      data.rank = +data.HappinessRank;
-      data.score = +data.Happiness_Score;
-      data.freedom = +data.Freedom;
-      data.generosity = +data.Generosity;
-      data.error = +data.Standard_Error;
-      data.economy = +data.Economy;
-      data.health = +data.Health;
+      data.Country = data.Country;
+      data.HappinessRank = +data.HappinessRank;
+      data.HappinessScore = +data.HappinessScore;
+      data.Freedom = +data.Freedom;
+      data.Generosity = +data.Generosity;
+      data.Economy = +data.Economy;
+      data.Health = +data.Health;
+      data.Trust = +data.Trust;
     });
 
-    console.log(happinessData);
-    //console.log(happinessData.HappinessRank);
 
     //Create x axis scale and size
     var xLinearScale = d3.scaleLinear()
-                         .domain([0, d3.max(happinessData, d => d.freedom)])
+                         .domain([0, d3.max(happinessData, d => d[xaxis])])
                          .range([0, width]);
 
     //Create y axis scale and size
     var yLinearScale = d3.scaleLinear()
-                         .domain([0, d3.max(happinessData, d => d.rank)])
+                         .domain([0, d3.max(happinessData, d => d[yaxis])])
                          .range([height, 0]);
 
     //Determine affixation to bottom and left for axes
@@ -81,8 +78,8 @@ function makeResponsive() {
         .data(happinessData)
         .enter()
         .append("circle")
-        .attr("cx", d => xLinearScale(d.freedom))
-        .attr("cy", d => yLinearScale(d.rank))
+        .attr("cx", d => xLinearScale(d[xaxis]))
+        .attr("cy", d => yLinearScale(d[yaxis]))
         .attr("r", "8")
         .attr("fill", "lightblue")
         .attr("stroke-width", ".5")
@@ -102,12 +99,13 @@ function makeResponsive() {
         .attr("y", 0 - margin.left)
         .attr("x", 0 - (height / 2))
         .attr("dy", "1em")
+        .attr("value", "HappinessRank")
         .text("Happiness Ranking");
 
     var toolTip = d3.tip()
         .attr("class", "tooltip")
         .html(function(d) {
-          return (`${d.country}`);
+          return (`${d.Country}`);
         });
 
     circlesGroup.call(toolTip);
@@ -122,6 +120,52 @@ function makeResponsive() {
   });
 }
 
-makeResponsive();
+function init() {
 
-d3.select(window).on("resize", makeResponsive);
+    var years = ["2015", "2016", "2017", "2018", "2019"]
+    var axes = ["HappinessRank", "HappinessScore", "Freedom", "Economy", "Generosity", "Trust", "Health"]
+
+    var yearMenu = d3.select("#selYear");
+    var xMenu = d3.select("#selX");
+    var yMenu = d3.select("#selY");
+    
+    yearMenu.selectAll("option")
+                 .data(years)
+                 .enter().append("option")
+                 .attr("value", ((d) => {d}))
+                 .text(function(d){return d});
+
+    xMenu.selectAll("option")
+                 .data(axes)
+                 .enter().append("option")
+                 .attr("value", ((d) => {d}))
+                 .text(function(d){return d});
+    
+    yMenu.selectAll("option")
+                 .data(axes)
+                 .enter().append("option")
+                 .attr("value", ((d) => {d}))
+                 .text(function(d){return d});
+    
+    var yearSet = yearMenu.property("value");
+    var xSet = yMenu.property("value");
+    var ySet = xMenu.property("value");
+
+    createChart(yearSet, xSet, ySet);
+}
+
+function optionChanged(){
+    var yearMenu = d3.select("#selYear");
+    var yearSet = yearMenu.property("value");
+
+    var xMenu = d3.select("#selX");
+    var xSet = xMenu.property("value");
+
+    var yMenu = d3.select("#selY");
+    var ySet = yMenu.property("value");
+
+    createChart(yearSet, xSet, ySet);
+}
+
+init();
+d3.select(window).on("resize", createChart);
