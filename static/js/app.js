@@ -7,8 +7,8 @@ function createChart(year, xaxis, yaxis) {
       svgArea.remove();
   }
 
-    var svgWidth = 450;
-    var svgHeight = 450;
+    var svgWidth = 800;
+    var svgHeight = 800;
   //var svgWidth = window.innerWidth;
   //var svgHeight = window.innerHeight;
 
