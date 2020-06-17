@@ -7,8 +7,10 @@ function createChart(year, xaxis, yaxis) {
       svgArea.remove();
   }
 
-  var svgWidth = window.innerWidth;
-  var svgHeight = window.innerHeight;
+    var svgWidth = 450;
+    var svgHeight = 450;
+  //var svgWidth = window.innerWidth;
+  //var svgHeight = window.innerHeight;
 
   //Set margin parameters of svg area
   var margin = {
