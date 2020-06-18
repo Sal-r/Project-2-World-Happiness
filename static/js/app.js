@@ -150,7 +150,33 @@ function labelMaker(axis){
 
 }
 
+function createInfoBlock(){
 
+    var countryMenu = d3.select("#selCountry");
+    var countrySet = countryMenu.property("value");
+    var yearMenu = d3.select("#selYear");
+    var yearSet = yearMenu.property("value");
+    var filepath = yearSet + "_happiness.csv";
+
+    d3.csv(filepath).then((happinessData) => {
+        var countryList = [];
+
+        happinessData.forEach(function(data) {
+            countryList.push(data.Country);
+        });
+
+        console.log(countrySet);
+        for (var i = 0;i < countryList.length; i++){
+            if(countryList[i] == countrySet){
+                console.log(happinessData[i]);
+            }
+        }
+
+
+    }).catch(function(error) {
+        console.log(error);
+    });
+}
 
 function init() {
 
@@ -190,14 +216,6 @@ function init() {
         happinessData.forEach(function(data) {
             countryList.push(data.Country);
         });
-        console.log(happinessData[1]);
-
-        for (var i = 0;i < countryList.length; i++){
-            if(countryList[i] == "Denmark"){
-                console.log(happinessData[i]);
-            }
-        }
-
 
         countryMenu.selectAll("option")
             .data(countryList)
@@ -214,15 +232,9 @@ function init() {
     var ySet = yMenu.property("value");
 
     createChart(yearSet, xSet, ySet);
+    createInfoBlock();
     
 }
-
-// function createInfoBlock(country){
-
-//     var countryMenu = d3.select("#selCountry");
-//     var countrySet = countryMenu.property("value")
-
-// }
 
 function optionChanged(){
     var yearMenu = d3.select("#selYear");
