@@ -201,3 +201,21 @@ function optionChanged(){
 
 init();
 d3.select(window).on("resize", createChart);
+
+
+
+//linechart svg
+
+var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
+    lineWidth = 500 - lineMargin.left - lineMargin.right,
+    lineHeight = 500 - lineMargin.top - lineMargin.bottom;
+
+// add linechart to "happiness info"
+
+var lineSvg = d3.select("#sample-metadata")
+    .append("lineSvg")
+        .attr("width", linewidth + lineMargin.left + lineMargin.right)
+        .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
+    .append("g")
+        .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top ")");
+
