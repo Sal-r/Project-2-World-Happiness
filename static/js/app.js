@@ -1,4 +1,31 @@
 function createChart(year, xaxis, yaxis) {
+
+    var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
+    lineWidth = 800 - lineMargin.left - lineMargin.right,
+    lineHeight = 500 - lineMargin.top - lineMargin.bottom;
+    // add linechart to "div id=line"
+    var lineSvg = d3.select("#line")
+    .append("lineSvg")
+        .attr("width", lineWidth + lineMargin.left + lineMargin.right)
+        .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
+    .append("g")
+        .attr("transform",
+                `translate(${lineMargin.left}, ${lineMargin.top})`);
+    //Read data for line
+    var lineFilePath = "merged_HappinessScore.csv";
+    d3.csv(lineFilePath).then((LineHappinessData)  => {
+        //Parse through the data
+        LineHappinessData.forEach(function(lineData) {
+            lineData.Country = data.Country;
+            lineData.HappinessScore = +data.HappinessScore2015;
+            lineData.HappinessRank = +data.HappinessScore2016;
+            lineData.HappinessRank = +data.HappinessScore2017;
+            lineData.HappinessRank = +data.HappinessScore2018;
+            lineData.HappinessRank = +data.HappinessScore2019;
+    }).catch(function(error) {
+            console.log(error);
+    });
+})
   //Ties an svg element to the body
   var svgArea = d3.select("body").select("svg");
 
