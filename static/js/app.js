@@ -160,6 +160,7 @@ function init() {
     var yearMenu = d3.select("#selYear");
     var xMenu = d3.select("#selX");
     var yMenu = d3.select("#selY");
+    var countryMenu = d3.select("#selCountry");
     
     yearMenu.selectAll("option")
                  .data(years.reverse())
@@ -180,11 +181,48 @@ function init() {
                  .text(function(d){return d});
     
     var yearSet = yearMenu.property("value");
+    var filepath = yearSet + "_happiness.csv";
+
+    d3.csv(filepath).then((happinessData) => {
+        //Parse through the data
+        var countryList = [];
+
+        happinessData.forEach(function(data) {
+            countryList.push(data.Country);
+        });
+        console.log(happinessData[1]);
+
+        for (var i = 0;i < countryList.length; i++){
+            if(countryList[i] == "Denmark"){
+                console.log(happinessData[i]);
+            }
+        }
+
+
+        countryMenu.selectAll("option")
+            .data(countryList)
+            .enter().append("option")
+            .attr("value", ((d) => {d}))
+            .text(function(d){return d});
+
+    }).catch(function(error) {
+        console.log(error);
+        });
+    
+
     var xSet = xMenu.property("value");
     var ySet = yMenu.property("value");
 
     createChart(yearSet, xSet, ySet);
+    
 }
+
+// function createInfoBlock(country){
+
+//     var countryMenu = d3.select("#selCountry");
+//     var countrySet = countryMenu.property("value")
+
+// }
 
 function optionChanged(){
     var yearMenu = d3.select("#selYear");
@@ -200,22 +238,22 @@ function optionChanged(){
 }
 
 init();
-d3.select(window).on("resize", createChart);
+d3.select(window).on("resize", optionChanged());
 
 
 
 //linechart svg
 
-var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
-    lineWidth = 500 - lineMargin.left - lineMargin.right,
-    lineHeight = 500 - lineMargin.top - lineMargin.bottom;
+// var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
+//     lineWidth = 500 - lineMargin.left - lineMargin.right,
+//     lineHeight = 500 - lineMargin.top - lineMargin.bottom;
 
-// add linechart to "happiness info"
+// // add linechart to "happiness info"
 
-var lineSvg = d3.select("#sample-metadata")
-    .append("lineSvg")
-        .attr("width", linewidth + lineMargin.left + lineMargin.right)
-        .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
-    .append("g")
-        .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top ")");
+// var lineSvg = d3.select("#sample-metadata")
+//     .append("lineSvg")
+//         .attr("width", linewidth + lineMargin.left + lineMargin.right)
+//         .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
+//     .append("g")
+//         .attr("transform", "translate(" + lineMargin.left + "," + lineMargin.top ")");
 
