@@ -152,11 +152,16 @@ function labelMaker(axis){
 
 function createInfoBlock(){
 
-    var countryMenu = d3.select("#selCountry");
-    var countrySet = countryMenu.property("value");
     var yearMenu = d3.select("#selYear");
     var yearSet = yearMenu.property("value");
+    var countryMenu = d3.select("#selCountry");
+    var countrySet = countryMenu.property("value");
     var filepath = yearSet + "_happiness.csv";
+
+    console.log(countryMenu);
+    console.log(countrySet);
+    console.log(yearMenu);
+    console.log(yearSet);
 
     d3.csv(filepath).then((happinessData) => {
         var countryList = [];
@@ -165,7 +170,6 @@ function createInfoBlock(){
             countryList.push(data.Country);
         });
 
-        console.log(countrySet);
         for (var i = 0;i < countryList.length; i++){
             if(countryList[i] == countrySet){
                 console.log(happinessData[i]);
@@ -216,6 +220,8 @@ function init() {
         happinessData.forEach(function(data) {
             countryList.push(data.Country);
         });
+
+        console.log(countryList);
 
         countryMenu.selectAll("option")
             .data(countryList)
