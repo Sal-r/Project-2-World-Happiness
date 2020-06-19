@@ -1,31 +1,31 @@
 function createChart(year, xaxis, yaxis) {
 
-    var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
-    lineWidth = 800 - lineMargin.left - lineMargin.right,
-    lineHeight = 500 - lineMargin.top - lineMargin.bottom;
-    // add linechart to "div id=line"
-    var lineSvg = d3.select("#line")
-    .append("lineSvg")
-        .attr("width", lineWidth + lineMargin.left + lineMargin.right)
-        .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
-    .append("g")
-        .attr("transform",
-                `translate(${lineMargin.left}, ${lineMargin.top})`);
-    //Read data for line
-    var lineFilePath = "merged_HappinessScore.csv";
-    d3.csv(lineFilePath).then((LineHappinessData)  => {
-        //Parse through the data
-        LineHappinessData.forEach(function(lineData) {
-            lineData.Country = data.Country;
-            lineData.HappinessScore = +data.HappinessScore2015;
-            lineData.HappinessRank = +data.HappinessScore2016;
-            lineData.HappinessRank = +data.HappinessScore2017;
-            lineData.HappinessRank = +data.HappinessScore2018;
-            lineData.HappinessRank = +data.HappinessScore2019;
-    }).catch(function(error) {
-            console.log(error);
-    });
-})
+//     var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
+//     lineWidth = 800 - lineMargin.left - lineMargin.right,
+//     lineHeight = 500 - lineMargin.top - lineMargin.bottom;
+//     // add linechart to "div id=line"
+//     var lineSvg = d3.select("#line")
+//     .append("lineSvg")
+//         .attr("width", lineWidth + lineMargin.left + lineMargin.right)
+//         .attr("height", lineHeight + lineMargin.top + lineMargin.bottom)
+//     .append("g")
+//         .attr("transform",
+//                 `translate(${lineMargin.left}, ${lineMargin.top})`);
+//     //Read data for line
+//     var lineFilePath = "merged_HappinessScore.csv";
+//     d3.csv(lineFilePath).then((LineHappinessData)  => {
+//         //Parse through the data
+//         LineHappinessData.forEach(function(lineData) {
+//             lineData.Country = data.Country;
+//             lineData.HappinessScore = +data.HappinessScore2015;
+//             lineData.HappinessRank = +data.HappinessScore2016;
+//             lineData.HappinessRank = +data.HappinessScore2017;
+//             lineData.HappinessRank = +data.HappinessScore2018;
+//             lineData.HappinessRank = +data.HappinessScore2019;
+//     }).catch(function(error) {
+//             console.log(error);
+//     });
+// })
   //Ties an svg element to the body
   var svgArea = d3.select("body").select("svg");
 
@@ -177,7 +177,7 @@ function labelMaker(axis){
 
 }
 
-function createInfoBlock(){
+function createInfoBlock(country){
 
     var yearMenu = d3.select("#selYear");
     var yearSet = yearMenu.property("value");
@@ -198,11 +198,12 @@ function createInfoBlock(){
         });
 
         for (var i = 0;i < countryList.length; i++){
-            if(countryList[i] == countrySet){
+            if(countryList[i] == country){
                 console.log(happinessData[i]);
             }
         }
 
+        console.log(happinessData[1][2]);
 
     }).catch(function(error) {
         console.log(error);
@@ -263,9 +264,11 @@ function init() {
 
     var xSet = xMenu.property("value");
     var ySet = yMenu.property("value");
+    var countrySet = countryMenu.property("value");
+    console.log(countrySet);
 
     createChart(yearSet, xSet, ySet);
-    createInfoBlock();
+    createInfoBlock(countrySet);
     
 }
 
