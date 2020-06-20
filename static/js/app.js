@@ -123,129 +123,104 @@ function createChart(year, xaxis, yaxis) {
   });
 }
 
-function createLineChart(year, xaxis, yaxis) {
+function createLineChart(){
+//START OF LINE CHART
 
-  //Ties an svg element to the body
-  var svgArea2 = d3.select("body").select("#line");
+var svgArea2 = d3.select("body").select("#line")
 
-  //If svgArea is not empty, empty it
-  if (!svgArea2.empty()) {
-      svgArea2.remove();
-  }
+if (!svgArea2.empty()) {
+    svgArea2.remove();
+}
 
-    var svgWidth = 800;
-    var svgHeight = 800;
-  //var svgWidth = window.innerWidth;
-  //var svgHeight = window.innerHeight;
+var svg2Width = 800
+var svg2Height = 500
 
-  //Set margin parameters of svg area
-  var margin = {
-    top: 50,
-    bottom: 50,
-    right: 50,
-    left: 50
-  };
+var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
 
-  //Set height and width values relative to the page and specified margins
-  var height = svgHeight - margin.top - margin.bottom;
-  var width = svgHeight - margin.left - margin.right;
+lineWidth = svg2Width - lineMargin.left - lineMargin.right,
+lineHeight = svg2Height - lineMargin.top - lineMargin.bottom;
 
-  //Append the svg element into the specified place
-  var svg2 = d3
-      .select("#line")
-      .append("svg")
-      .attr("height", svgHeight)
-      .attr("width", svgWidth);
+// create svg wrapper
 
-  //Creates a chart to work on
-  var lineGroup = svg2.append("g")
-                      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+var lineSvg = d3
+    .select("#line")
+    .append("svg")
+        .attr("width", svg2Width)
+        .attr("height", svg2Height);
 
-  var filepath = year + "_happiness.csv";
+var lineGroup = lineSvg.append("g")
+        .attr("transform", `translate(${lineMargin.left}, ${lineMargin.top})`);
 
-  //Read in the csv file
-  d3.csv(filepath).then((happinessData) => {
-
-    //Parse through the data
-    happinessData.forEach(function(data) {
-      data.Country = data.Country;
-      data.HappinessRank = +data.HappinessRank;
-      data.HappinessScore = +data.HappinessScore;
-      data.Freedom = +data.Freedom;
-      data.Generosity = +data.Generosity;
-      data.Economy = +data.Economy;
-      data.Health = +data.Health;
-      data.Trust = +data.Trust;
-    });
-
-
-    //Create x axis scale and size
-    var xLinearScale = d3.scaleLinear()
-                         .domain([0, d3.max(happinessData, d => d[xaxis])])
-                         .range([0, width]);
-
-    //Create y axis scale and size
-    var yLinearScale = d3.scaleLinear()
-                         .domain([0, d3.max(happinessData, d => d[yaxis])])
-                         .range([height, 0]);
-
-    //Determine affixation to bottom and left for axes
-    var xAxis = d3.axisBottom(xLinearScale);
-    var yAxis = d3.axisLeft(yLinearScale);
-
-    //Append axes to svg element
-    lineGroup.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(xAxis);
-
-    lineGroup.append("g")
-        .call(yAxis);
-
-    //Append the value points to the chart
-    var circlesGroup = lineGroup.selectAll("circle")
-        .data(happinessData)
-        .enter()
-        .append("circle")
-        .attr("cx", d => xLinearScale(d[xaxis]))
-        .attr("cy", d => yLinearScale(d[yaxis]))
-        .attr("r", "8")
-        .attr("fill", "lightblue")
-        .attr("stroke-width", ".5")
-        .attr("stroke", "blue");
-
-    var labelsGroup = lineGroup.append("g")
-        .attr("transform", `translate(${width / 2}, ${height + 20})`);
-
-    var freedomLabel = labelsGroup.append("text")
-        .attr("x", 0)
-        .attr("y", 20)
-        .attr("value", "freedom")
-        .text(labelMaker(xaxis));
-
-    lineGroup.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - margin.left)
-        .attr("x", 0 - (height / 2))
-        .attr("dy", "1em")
-        .attr("value", "HappinessRank")
-        .text(labelMaker(yaxis));
-
-    var toolTip = d3.tip()
-        .attr("class", "tooltip")
-        .html(function(d) {
-          return (`${d.Country}`);
+function createLineChart(lineGroup) {
+    
+    //IMPORT DATA
+    var lineFilePath = "merged_HappinessScore.csv";
+    d3.csv(lineFilePath).then((LineHappinessData)  => {
+        
+        //Parse through the data
+        var countryList = [];
+        var List2015= [];
+        var List2016 = [];
+        var List2017= [];
+        var List2018= [];
+        var List2019 = [];
+        
+        LineHappinessData.forEach(function(lineData) {
+            countryList.push(lineData.Country);
+            List2015.push(lineData.HappinessScore2015)
+            List2016.push(lineData.HappinessScore2016)
+            List2017.push(lineData.HappinessScore2017)
+            List2018.push(lineData.HappinessScore2018)
+            List2019.push(lineData.HappinessScore2019)
         });
+        
+        var ScoreList = [List2015, List2016, List2017, List2018, List2019]
+        var CountryScores = []
+        
+        console.log(countryList)
+        for (var i = 0;i < countryList.length; i++){
+            if(countryList[i] == "Denmark"){
+                for (var q = 0; q < ScoreList.length; q++){
+                    CountryScores.push(ScoreList[q][i])
+                }                
+            }
+        };
+        console.log(CountryScores)
+        var years = [2015, 2016, 2017, 2018, 2019];
+        
+        //CREATE RANGE/SCALES
+        var lineX = d3.scaleLinear().domain([years.min, years.max]).range(0, lineWidth);
+        var lineY = d3.scaleLinear().domain([0, 10]).range(lineHeight, 0);
 
-    circlesGroup.call(toolTip);
+        //CREATE AXES
+        var lineBottomAxis = d3.axisBottom(lineX);
+        var lineYAxis = d3.axisLeft(lineY);
+        
+        lineGroup.append("g")
+            .attr("transform", `translate(0, ${lineHeight})`)
+            .call(lineBottomAxis);
 
-    circlesGroup
-        .on("mouseover", function(data) {toolTip.show(data);})
-        .on("mouseout", function(data, index) {toolTip.hide(data);});
+        lineGroup.append("g")
+            .call(lineYAxis);
 
-  
-  }).catch(function(error) {
-  console.log(error);
-  });
+        // var line1 = d3
+        //     .line()
+        //     .x(d => lineX(years))
+        //     .y(d => lineY(CountryScores));
+
+        // lineGroup.append("path")
+        //     .data([LineHappinessData])
+        //     .attr("d", line1);
+
+        // lineGroup.append("text")
+        //     .attr("transform", `translate(${lineWidth / 2}, ${lineHeight + lineMargin.top + 50})`)
+        //     .attr("text-anchor", "middle")
+        //     .attr("font-size", "16px")
+        //     .text("Years");
+        
+    }).catch(function(error) {
+        console.log(error);
+    });
 }
 
 function labelMaker(axis){ 
@@ -394,4 +369,4 @@ function countryChanged(){
 }
 
 init();
-d3.select(window).on("resize", optionChanged());
+//d3.select(window).on("resize", optionChanged());
