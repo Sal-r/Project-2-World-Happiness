@@ -123,93 +123,93 @@ function createChart(year, xaxis, yaxis) {
   });
 }
 
-//LINE CHART SETUP
-function createLineChart() {
-    var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
-    lineWidth = 800 - lineMargin.left - lineMargin.right,
-    lineHeight = 500 - lineMargin.top - lineMargin.bottom;
+// //LINE CHART SETUP
+// function createLineChart() {
+//     var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
+//     lineWidth = 800 - lineMargin.left - lineMargin.right,
+//     lineHeight = 500 - lineMargin.top - lineMargin.bottom;
 
-    // WRAPPER    
-    var svg2= d3
-    .select("body")
-    .append("svg")
-    .attr("width", lineWidth)
-    .attr("height", lineHeight);
+//     // WRAPPER    
+//     var svg2= d3
+//     .select("body")
+//     .append("svg")
+//     .attr("width", lineWidth)
+//     .attr("height", lineHeight);
     
-    var lineGroup = svg2.append("g")
-    .attr("transform", `translate(${lineMargin.left}, ${lineMargin.top})`);
+//     var lineGroup = svg2.append("g")
+//     .attr("transform", `translate(${lineMargin.left}, ${lineMargin.top})`);
     
-    //IMPORT DATA
-    var lineFilePath = "merged_HappinessScore.csv";
-    d3.csv(lineFilePath).then((LineHappinessData)  => {
+//     //IMPORT DATA
+//     var lineFilePath = "merged_HappinessScore.csv";
+//     d3.csv(lineFilePath).then((LineHappinessData)  => {
         
-        //Parse through the data
-        var countryList = [];
-        var List2015= [];
-        var List2016 = [];
-        var List2017= [];
-        var List2018= [];
-        var List2019 = [];
+//         //Parse through the data
+//         var countryList = [];
+//         var List2015= [];
+//         var List2016 = [];
+//         var List2017= [];
+//         var List2018= [];
+//         var List2019 = [];
         
-        LineHappinessData.forEach(function(lineData) {
-            countryList.push(lineData.Country);
-            List2015.push(lineData.HappinessScore2015)
-            List2016.push(lineData.HappinessScore2016)
-            List2017.push(lineData.HappinessScore2017)
-            List2018.push(lineData.HappinessScore2018)
-            List2019.push(lineData.HappinessScore2019)
-        });
+//         LineHappinessData.forEach(function(lineData) {
+//             countryList.push(lineData.Country);
+//             List2015.push(lineData.HappinessScore2015)
+//             List2016.push(lineData.HappinessScore2016)
+//             List2017.push(lineData.HappinessScore2017)
+//             List2018.push(lineData.HappinessScore2018)
+//             List2019.push(lineData.HappinessScore2019)
+//         });
         
-        var ScoreList = [List2015, List2016, List2017, List2018, List2019]
-        var CountryScores = []
+//         var ScoreList = [List2015, List2016, List2017, List2018, List2019]
+//         var CountryScores = []
         
-        console.log(countryList)
-        for (var i = 0;i < countryList.length; i++){
-            if(countryList[i] == "Denmark"){
-                for (var q = 0; q < ScoreList.length; q++){
-                    CountryScores.push(ScoreList[q][i])
-                }                
-            }
-        };
-        console.log(CountryScores)
-        var years = [2015, 2016, 2017, 2018, 2019];
+//         console.log(countryList)
+//         for (var i = 0;i < countryList.length; i++){
+//             if(countryList[i] == "Denmark"){
+//                 for (var q = 0; q < ScoreList.length; q++){
+//                     CountryScores.push(ScoreList[q][i])
+//                 }                
+//             }
+//         };
+//         console.log(CountryScores)
+//         var years = [2015, 2016, 2017, 2018, 2019];
         
-        //CREATE RANGE/SCALES
-        var lineX = d3.scaleLinear().domain([years.min, years.max]).range(0, lineWidth);
-        var lineY = d3.scaleLinear().domain([0, 10]).range(lineHeight, 0);
+//         //CREATE RANGE/SCALES
+//         var lineX = d3.scaleLinear().domain([years.min, years.max]).range(0, lineWidth);
+//         var lineY = d3.scaleLinear().domain([0, 10]).range(lineHeight, 0);
 
-        //CREATE AXES
-        var lineBottomAxis = d3.axisBottom(lineX);
-        var lineYAxis = d3.axisLeft(lineY);
+//         //CREATE AXES
+//         var lineBottomAxis = d3.axisBottom(lineX);
+//         var lineYAxis = d3.axisLeft(lineY);
         
-        lineGroup.append("g")
-            .attr("transform", `translate(0, ${lineHeight})`)
-            .call(lineBottomAxis);
+//         lineGroup.append("g")
+//             .attr("transform", `translate(0, ${lineHeight})`)
+//             .call(lineBottomAxis);
 
-        lineGroup.append("g")
-            .attr("transform", `translate(${lineWidth}, 0)`)
-            .attr("stroke", "orange")
-            .call(lineYAxis);
+//         lineGroup.append("g")
+//             .attr("transform", `translate(${lineWidth}, 0)`)
+//             .attr("stroke", "orange")
+//             .call(lineYAxis);
 
-        var line1 = d3
-            .line()
-            .x(d => lineX(years))
-            .y(d => lineY(CountryScores));
+//         var line1 = d3
+//             .line()
+//             .x(d => lineX(years))
+//             .y(d => lineY(CountryScores));
 
-        lineGroup.append("path")
-            .data([LineHappinessData])
-            .attr("d", line1);
+//         lineGroup.append("path")
+//             .data([LineHappinessData])
+//             .attr("d", line1);
 
-        lineGroup.append("text")
-            .attr("transform", `translate(${lineWidth / 2}, ${lineHeight + lineMargin.top + 50})`)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
-            .text("Years");
+//         lineGroup.append("text")
+//             .attr("transform", `translate(${lineWidth / 2}, ${lineHeight + lineMargin.top + 50})`)
+//             .attr("text-anchor", "middle")
+//             .attr("font-size", "16px")
+//             .text("Years");
         
-    }).catch(function(error) {
-        console.log(error);
-    });
-}
+//     }).catch(function(error) {
+//         console.log(error);
+//     });
+// }
 
 function labelMaker(axis){ 
     
@@ -245,6 +245,7 @@ function createInfoBlock(country){
     var yearSet = yearMenu.property("value");
     var countryMenu = d3.select("#selCountry");
     var countrySet = countryMenu.property("value");
+
     var filepath = yearSet + "_happiness.csv";
 
     console.log(countryMenu);
@@ -260,12 +261,10 @@ function createInfoBlock(country){
         });
 
         for (var i = 0;i < countryList.length; i++){
-            if(countryList[i] == country){
+            if(countryList[i] == countrySet){
                 console.log(happinessData[i]);
             }
         }
-
-        console.log(happinessData[1][2]);
 
     }).catch(function(error) {
         console.log(error);
@@ -301,7 +300,7 @@ function init() {
                  .text(function(d){return d});
     
     var yearSet = yearMenu.property("value");
-    var filepath = yearSet + "_happiness.csv";
+    var filepath = "merged_HappinessScore.csv";
 
     d3.csv(filepath).then((happinessData) => {
         //Parse through the data
@@ -318,20 +317,22 @@ function init() {
             .enter().append("option")
             .attr("value", ((d) => {d}))
             .text(function(d){return d});
+        console.log(countryMenu.property("value"));
 
+
+        
+        console.log(countryMenu.property("value"));
+        var xSet = xMenu.property("value");
+        var ySet = yMenu.property("value");
+        var countrySet = countryMenu.property("value");
+        console.log(countrySet);
+
+        createChart(yearSet, xSet, ySet);
+        createInfoBlock();
+        //createLineChart();
     }).catch(function(error) {
         console.log(error);
-        });
-    
-
-    var xSet = xMenu.property("value");
-    var ySet = yMenu.property("value");
-    var countrySet = countryMenu.property("value");
-    console.log(countrySet);
-
-    createChart(yearSet, xSet, ySet);
-    createInfoBlock();
-    createLineChart();
+    });
 }
 
 function optionChanged(){
