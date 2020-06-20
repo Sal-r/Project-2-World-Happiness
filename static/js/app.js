@@ -353,7 +353,7 @@ function init() {
 
         createChart(yearSet, xSet, ySet);
         createInfoBlock();
-        createLineChart(yearSet, xSet, ySet);
+        //createLineChart(yearSet, xSet, ySet);
 
     }).catch(function(error) {
         console.log(error);
