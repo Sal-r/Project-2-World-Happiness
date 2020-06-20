@@ -278,6 +278,16 @@ function createInfoBlock(){
                 d3.select(".trust").text("Trust: " + happinessData[i].Trust);
                 d3.select(".freedom").text("Freedom: " + happinessData[i].Freedom);
             }
+            else{
+                d3.select(".country").text("That country has no data for this year. Try selecting another country!");
+                d3.select(".rank").text("");
+                d3.select(".score").text("");
+                d3.select(".economy").text("");
+                d3.select(".health").text("");
+                d3.select(".generosity").text("");
+                d3.select(".trust").text("");
+                d3.select(".freedom").text("");
+            }
         }
 
     }).catch(function(error) {
