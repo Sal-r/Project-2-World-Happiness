@@ -239,7 +239,7 @@ function labelMaker(axis){
             return("Generosity Rating")
             break;
         case ("Health"):
-            return("Health (Life Expectancy")
+            return("Health (Life Expectancy)")
             break;
         case ("Trust"):
             return("Trust (Perception of Government Corruption)")
