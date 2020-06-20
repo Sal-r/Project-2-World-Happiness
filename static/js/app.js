@@ -123,6 +123,33 @@ function createChart(year, xaxis, yaxis) {
   });
 }
 
+//START OF LINE CHART
+
+var svgArea2 = d3.select("body").select("#line")
+
+if (!svgArea2.empty()) {
+    svgArea2.remove();
+}
+
+var svg2Width = 800
+var svg2Height = 500
+
+var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
+
+lineWidth = svg2Width - lineMargin.left - lineMargin.right,
+lineHeight = svg2Height - lineMargin.top - lineMargin.bottom;
+
+// create svg wrapper
+
+var lineSvg = d3
+    .select("#line")
+    .append("svg")
+        .attr("width", svg2Width)
+        .attr("height", svg2Height);
+
+var lineGroup = lineSvg.append("g")
+        .attr("transform", `translate(${lineMargin.left}, ${lineMargin.top})`);
+
 function createLineChart(lineGroup) {
     
     //IMPORT DATA
@@ -173,24 +200,22 @@ function createLineChart(lineGroup) {
             .call(lineBottomAxis);
 
         lineGroup.append("g")
-            .attr("transform", `translate(${lineWidth}, 0)`)
-            .attr("stroke", "orange")
             .call(lineYAxis);
 
-        var line1 = d3
-            .line()
-            .x(d => lineX(years))
-            .y(d => lineY(CountryScores));
+        // var line1 = d3
+        //     .line()
+        //     .x(d => lineX(years))
+        //     .y(d => lineY(CountryScores));
 
-        lineGroup.append("path")
-            .data([LineHappinessData])
-            .attr("d", line1);
+        // lineGroup.append("path")
+        //     .data([LineHappinessData])
+        //     .attr("d", line1);
 
-        lineGroup.append("text")
-            .attr("transform", `translate(${lineWidth / 2}, ${lineHeight + lineMargin.top + 50})`)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
-            .text("Years");
+        // lineGroup.append("text")
+        //     .attr("transform", `translate(${lineWidth / 2}, ${lineHeight + lineMargin.top + 50})`)
+        //     .attr("text-anchor", "middle")
+        //     .attr("font-size", "16px")
+        //     .text("Years");
         
     }).catch(function(error) {
         console.log(error);
