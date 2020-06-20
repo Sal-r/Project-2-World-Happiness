@@ -123,21 +123,7 @@ function createChart(year, xaxis, yaxis) {
   });
 }
 
-// //LINE CHART SETUP
-// function createLineChart() {
-//     var lineMargin = {top: 50, right: 50, bottom: 50, left: 50},
-//     lineWidth = 800 - lineMargin.left - lineMargin.right,
-//     lineHeight = 500 - lineMargin.top - lineMargin.bottom;
-
-//     // WRAPPER    
-//     var svg2= d3
-//     .select("body")
-//     .append("svg")
-//     .attr("width", lineWidth)
-//     .attr("height", lineHeight);
-    
-//     var lineGroup = svg2.append("g")
-//     .attr("transform", `translate(${lineMargin.left}, ${lineMargin.top})`);
+function createLineChart(lineGroup) {
     
 //     //IMPORT DATA
 //     var lineFilePath = "merged_HappinessScore.csv";
