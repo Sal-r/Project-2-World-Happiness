@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>World Happiness</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -25,6 +26,10 @@
           <select id="selCountry" onchange="countryChanged()"></select>
           <h5>Year:</h5>
           <select id="selYear" onchange="optionChanged()"></select>
+          <h5>X Axis:</h5>
+          <select id="selX" onchange="optionChanged()"></select>
+          <h5>Y Axis:</h5>
+          <select id="selY" onchange="optionChanged()"></select>
         </div>
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -42,14 +47,13 @@
           </div>
         </div>
       </div>
-      <div class="col-md-5">
+      <div class="col-md-9">
+        <h2 align="center">Overall World Happiness by Chosen Year</h2>
         <div id="line"></div>
       </div>
-      <div class="col-md-5">
-        <div id="gauge"></div>
-      </div>
     </div>
-    <div class="row">
+    <!--
+      <div class="row">
       <div class = "col-xs-12 col-md-12">
         <h2 align="center">Overall World Happiness by Chosen Year</h2>
       </div>
@@ -67,6 +71,7 @@
         <div id="scatter"></div>
       </div>
     </div>
+  -->
 
     <div id="footer">
       <p>Jacob Avchen, Jacob Hollander, and Sal Russo</p>
@@ -79,7 +84,6 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
   <script type="text/javascript" src="static/js/app.js"></script>
-  <script src="style.css"></script>
 
 </body>
 

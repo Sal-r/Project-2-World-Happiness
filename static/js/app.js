@@ -8,8 +8,8 @@ function createChart(year, xaxis, yaxis) {
       svgArea.remove();
   }
 
-    var svgWidth = 800;
-    var svgHeight = 800;
+    var svgWidth = 650;
+    var svgHeight = 650;
   //var svgWidth = window.innerWidth;
   //var svgHeight = window.innerHeight;
 
@@ -27,7 +27,7 @@ function createChart(year, xaxis, yaxis) {
 
   //Append the svg element into the specified place
   var svg = d3
-      .select("#scatter")
+      .select("#line")
       .append("svg")
       .attr("height", svgHeight)
       .attr("width", svgWidth);
@@ -242,7 +242,7 @@ function labelMaker(axis){
             return("Health (Life Expectancy")
             break;
         case ("Trust"):
-            return("Trust (Perception of Government Corruption")
+            return("Trust (Perception of Government Corruption)")
             break;
         case ("Freedom"):
             return("Freedom Rating")
