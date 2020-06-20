@@ -277,6 +277,7 @@ function createInfoBlock(){
                 d3.select(".generosity").text("Generosity: " + happinessData[i].Generosity);
                 d3.select(".trust").text("Trust: " + happinessData[i].Trust);
                 d3.select(".freedom").text("Freedom: " + happinessData[i].Freedom);
+                break;
             }
             else{
                 d3.select(".country").text("That country has no data for this year. Try selecting another country!");
@@ -371,6 +372,7 @@ function optionChanged(){
     var ySet = yMenu.property("value");
 
     createChart(yearSet, xSet, ySet);
+    createInfoBlock();
 }
 
 function countryChanged(){
