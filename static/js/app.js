@@ -173,9 +173,9 @@ function createInfoBlock(){
                 d3.select(".rank").text("Happiness Rank: " + happinessData[i].HappinessRank);
                 d3.select(".score").text("Score: " + happinessData[i].HappinessScore);
                 d3.select(".economy").text("Economy: " + happinessData[i].Economy);
-                d3.select(".health").text("Health: " + happinessData[i].Health);
                 d3.select(".generosity").text("Generosity: " + happinessData[i].Generosity);
                 d3.select(".trust").text("Trust: " + happinessData[i].Trust);
+                d3.select(".health").text("Health: " + happinessData[i].Health);
                 d3.select(".freedom").text("Freedom: " + happinessData[i].Freedom);
                 break;
             }
@@ -184,9 +184,9 @@ function createInfoBlock(){
                 d3.select(".rank").text("");
                 d3.select(".score").text("");
                 d3.select(".economy").text("");
-                d3.select(".health").text("");
                 d3.select(".generosity").text("");
                 d3.select(".trust").text("");
+                d3.select(".health").text("");
                 d3.select(".freedom").text("");
             }
         }
