@@ -199,7 +199,7 @@ function createInfoBlock(){
 function init() {
 
     var years = ["2015", "2016", "2017", "2018", "2019"]
-    var axes = ["HappinessScore", "HappinessRank", "Economy", "Generosity", "Trust", "Health", "Freedom"]
+    var axes = ["HappinessRank", "HappinessScore", "Economy", "Generosity", "Trust", "Health", "Freedom"]
 
     var yearMenu = d3.select("#selYear");
     var xMenu = d3.select("#selX");
